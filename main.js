@@ -240,7 +240,6 @@ window.addEventListener('load', async () => {
 // Draggable Modal
 
 var myModal = document.getElementById('mint-modal')
-var myInput = document.getElementById('edit_row_btn')
 
 myModal.addEventListener('shown.bs.modal', function () {
   myInput.focus()
@@ -258,4 +257,19 @@ $(".modal-dialog").css({
 $(".modal-dialog").draggable({
     cursor: "move",
     handle: ".dragable_touch",
+});
+
+$("#collapse-minus").hide();
+$("#collapse-plus").show();
+
+
+
+$('#mint-modal').on('shown.bs.collapse', function () {
+    $("#collapse-minus").show();
+    $("#collapse-plus").hide();
+});
+
+$('#mint-modal').on('hidden.bs.collapse', function () {
+    $("#collapse-plus").show();
+    $("#collapse-minus").hide();
 });
