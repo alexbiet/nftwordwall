@@ -76,6 +76,11 @@ async function fetchAccountData() {
 
 }
 
+inputEl = document.getElementById("mint-word");
+testInputEl = document.getElementById("test-input");
+
+document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
+
 async function callStartMint(){
   console.log("call mint");
   userMessage = inputEl.value;
@@ -94,20 +99,8 @@ async function callStartMint(){
     console.log(receipt);
 }
 
-inputEl = document.getElementById("mint-word");
-
-async function refreshAccountData() {
-  document.querySelector("#connected").style.display = "none";
-  document.querySelector("#not-connected").style.display = "block";
-
-
-  document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
-  document.querySelector("#btn-connect").removeAttribute("disabled")
-  await fetchAccountData(provider);
-}
-
 async function callMint(){
-  console.log("call mint");
+  console.log("call mint()");
   let contractAddress = db.minterAddress;
   console.log(contractAddress);
   const options = {
@@ -123,6 +116,25 @@ async function callMint(){
     let  transaction = await Moralis.executeFunction(options);
     const receipt = await transaction.wait();
     console.log(receipt.events[0]);
+}
+
+
+
+async function getNFTData(_tokenId){
+  console.log("getNFTData()");
+  console.log(_tokenId);
+  let tokenId = _tokenId;
+  let contractAddress = db.minterAddress;
+  const options = {
+      contractAddress: contractAddress,
+      functionName: "requestIdToAttributes",
+      abi: db.minterABI,
+      params: {
+        tokenId: tokenId,
+      }
+    }
+    console.log(Moralis.executeFunction(options));
+
 }
 
 
@@ -146,6 +158,15 @@ function parseNFT(data){
   return nftObject;
 }
 
+
+async function refreshAccountData() {
+  document.querySelector("#connected").style.display = "none";
+  document.querySelector("#not-connected").style.display = "block";
+
+  document.querySelector("#btn-connect").setAttribute("disabled", "disabled")
+  document.querySelector("#btn-connect").removeAttribute("disabled")
+  await fetchAccountData(provider);
+}
 
 async function onConnect() {
   try {
