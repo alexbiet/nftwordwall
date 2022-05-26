@@ -65,7 +65,7 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
-  document.querySelector("#btn-mint").addEventListener("click", function () {  callMint();});
+  document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint();});
 
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
   document.querySelector("#selected-account-balance").textContent = humanFriendlyBalance + " " + selectedBalanceSymbol;
@@ -78,21 +78,23 @@ async function fetchAccountData() {
 
 async function callStartMint(){
   console.log("call mint");
-  let contractAddress = "0x51c03204dc33eb484944342163c9bf468b4417aa"; //VRFConsumer
-  console.log(contractAddress);
+  userMessage = inputEl.value;
+  let contractAddress = db.vrfAddress; //VRFConsumer
   const options = {
       contractAddress: contractAddress,
       functionName: "startMint",
-      abi: abis.wordwallVRF,
+      abi: db.vrfABI,
       params: {
         _userMessage: "testMessage1",
-      }
+      },
+      msgValue: 1000000000000000,
     }
     let  transaction = await Moralis.executeFunction(options);
     const receipt = await transaction.wait();
     console.log(receipt);
 }
 
+inputEl = document.getElementById("mint-word");
 
 async function refreshAccountData() {
   document.querySelector("#connected").style.display = "none";
@@ -106,12 +108,12 @@ async function refreshAccountData() {
 
 async function callMint(){
   console.log("call mint");
-  let contractAddress = "0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7";
+  let contractAddress = db.minterAddress;
   console.log(contractAddress);
   const options = {
       contractAddress: contractAddress,
       functionName: "safeMint",
-      abi: abis.wordwall,
+      abi: db.minterABI,
       params: {
         to: "0x9518a55e5cd4Ac650A37a6Ab6c352A3146D2C9BD" ,
         _message: "testmessage",
@@ -145,7 +147,7 @@ async function onConnect() {
 
 
   filter = {
-    address: "0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7",
+    address: db.minterAddress,
     topics: [
         // the name of the event, parnetheses containing the data type of each event, no spaces
         ethers.utils.id("MintMessage(string)")
@@ -154,7 +156,7 @@ async function onConnect() {
 
 
 
-  wordWallContract = new ethers.Contract("0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7", abis.wordwall, provider);
+  wordWallContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
 
   // let events = await ethers.Contract.filters.MintMessage()
   // console.log(events);
@@ -162,7 +164,7 @@ async function onConnect() {
    provider.on(filter, (log, event) => {
     // do whatever you want here 
 
-    let iface = new ethers.utils.Interface(abis.wordwall);
+    let iface = new ethers.utils.Interface(db.minterABI);
 
     parseEvent = iface.parseLog(log);
     console.log("event triggered");
