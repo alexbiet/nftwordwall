@@ -65,7 +65,12 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
+<<<<<<< Updated upstream
   document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint();});
+=======
+  document.querySelector("#btn-mint").addEventListener("click", function () {  callMint(document.getElementById("mint-word").value);});
+  //document.querySelector("#btn-read").addEventListener("click", function () {  parseNFT("testing|12345678998765");});
+>>>>>>> Stashed changes
 
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
   document.querySelector("#selected-account-balance").textContent = humanFriendlyBalance + " " + selectedBalanceSymbol;
@@ -73,6 +78,23 @@ async function fetchAccountData() {
   // Display fully loaded UI for wallet data
   document.querySelector("#not-connected").style.display = "none";
   document.querySelector("#connected").style.display = "block";
+
+}
+
+async function getChainlinkData(){
+
+const aggregatorV3InterfaceABI = [{ "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "description", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint80", "name": "_roundId", "type": "uint80" }], "name": "getRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "latestRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "version", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }]
+
+//Mumbai matic price feed: 0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
+//Polygon Matic price feed: 0xAB594600376Ec9fD91F8e885dADF0CE036862dE0
+const addr = "0x7bAC85A8a13A4BcD8abb3eB7d6b4d632c5a57676"
+const priceFeed = new ethers.Contract(addr, aggregatorV3InterfaceABI, provider)
+priceFeed.latestRoundData()
+    .then((roundData) => {
+        // Do something with roundData
+        num = ethers.BigNumber.from(roundData[0]._hex) / 10 ** 18
+        console.log("Latest Round Data", num.toString())
+    })
 
 }
 
@@ -138,9 +160,9 @@ function parseNFT(data){
   nftObject["size"]= Number(metadata.slice(0,2));
   nftObject["color"]= Number(metadata.slice(2,4));
   nftObject["font"] = Number(metadata.slice(4,6));
-  nftObject["type"] = Number(metadata.slice(6,8));
-  nftObject["xcoord"] = Number(metadata.slice(8,10));
-  nftObject["ycoord"] = Number(metadata.slice(10,12));
+  nftObject["duration"] = Number(metadata.slice(6,8));
+  nftObject["xcoord"] = Number(metadata.slice(8,11));
+  nftObject["ycoord"] = Number(metadata.slice(11,14));
 
   console.log(nftObject);
   return nftObject;
@@ -174,6 +196,7 @@ async function onConnect() {
     ]
   }
 
+  getChainlinkData();
 
 
   wordWallContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
