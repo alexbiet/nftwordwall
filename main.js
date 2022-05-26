@@ -133,6 +133,7 @@ function parseNFT(data){
 
   var nftObject = {}
 
+  nftObject["message"] = message;
   nftObject["size"]= Number(metadata.slice(0,2));
   nftObject["color"]= Number(metadata.slice(2,4));
   nftObject["font"] = Number(metadata.slice(4,6));
