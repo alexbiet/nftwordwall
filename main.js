@@ -47,8 +47,11 @@ async function fetchAccountData() {
   const chainId = await web3.eth.getChainId();
   const chainData = evmChains.getChain(chainId);
   let network = chainData["network"];
-  //console.log("Web3 instance is", web3, "Network is: " + network);
+  console.log("Web3 instance is", chainData, "Network is: " + network);
   document.querySelector("#network-name").textContent = chainData.name;
+
+
+  getChainlinkData(chainId);
 
 
 
@@ -65,12 +68,8 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
-<<<<<<< Updated upstream
-  document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint();});
-=======
   document.querySelector("#btn-mint").addEventListener("click", function () {  callMint(document.getElementById("mint-word").value);});
   //document.querySelector("#btn-read").addEventListener("click", function () {  parseNFT("testing|12345678998765");});
->>>>>>> Stashed changes
 
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
   document.querySelector("#selected-account-balance").textContent = humanFriendlyBalance + " " + selectedBalanceSymbol;
@@ -81,20 +80,23 @@ async function fetchAccountData() {
 
 }
 
-async function getChainlinkData(){
+async function getChainlinkData(chainId){
+  console.log(chainId)
 
-const aggregatorV3InterfaceABI = [{ "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "description", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint80", "name": "_roundId", "type": "uint80" }], "name": "getRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "latestRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "version", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }]
+  const aggregatorV3InterfaceABI = db.aggregatorV3InterfaceABI;
 
-//Mumbai matic price feed: 0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
-//Polygon Matic price feed: 0xAB594600376Ec9fD91F8e885dADF0CE036862dE0
-const addr = "0x7bAC85A8a13A4BcD8abb3eB7d6b4d632c5a57676"
-const priceFeed = new ethers.Contract(addr, aggregatorV3InterfaceABI, provider)
-priceFeed.latestRoundData()
-    .then((roundData) => {
-        // Do something with roundData
-        num = ethers.BigNumber.from(roundData[0]._hex) / 10 ** 18
-        console.log("Latest Round Data", num.toString())
-    })
+  const addr = db.priceFeedAddresses[chainId]
+  const priceFeed = new ethers.Contract(addr, aggregatorV3InterfaceABI, provider)
+  const decimals = await priceFeed.decimals();
+
+  priceFeed.latestRoundData()
+      .then((roundData) => {
+          // Do something with roundData
+          num = ethers.BigNumber.from(roundData[1]) / 10 ** decimals
+          priceSpan = document.getElementById("matic-price");
+          priceSpan.innerHTML = num.toFixed(2);
+          
+      })
 
 }
 
@@ -195,8 +197,6 @@ async function onConnect() {
         ethers.utils.id("MintMessage(string)")
     ]
   }
-
-  getChainlinkData();
 
 
   wordWallContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
