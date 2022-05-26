@@ -125,7 +125,7 @@ async function onConnect() {
 
 
   filter = {
-    address: db["testnet"]["Contracts"].WordWallMinter,
+    address: "0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7",
     topics: [
         // the name of the event, parnetheses containing the data type of each event, no spaces
         ethers.utils.id("MintMessage(string)")
@@ -133,19 +133,19 @@ async function onConnect() {
   }
 
 
-  wordWallContract = new ethers.Contract( db["testnet"]["Contracts"].WordWallMinter, abis.wordwall, provider);
+  wordWallContract = new ethers.Contract("0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7", abis.wordwall, provider);
 
-  let events = await ethers.Contract.filters.MintMessage()
-  console.log(events);
+  // let events = await ethers.Contract.filters.MintMessage()
+  // console.log(events);
 
-  provider.on(filter, (log, event) => {
+   provider.on(filter, (log, event) => {
     // do whatever you want here 
 
     let iface = new ethers.utils.Interface(abis.wordwall);
 
     parseEvent = iface.parseLog(log);
     console.log("event triggered");
-    console.log(parseEvent.args[0].message);
+    console.log(parseEvent);
   })
 
   
