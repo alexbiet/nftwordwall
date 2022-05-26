@@ -6,7 +6,6 @@ Moralis.start({ serverUrl, appId });
 
 const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 const ethers = Moralis.web3Library;
-let provider;
 
 
 
@@ -18,7 +17,9 @@ const WalletConnectProvider = window.WalletConnectProvider.default;
 const evmChains = window.evmChains;
 
 let web3Modal;
+let provider;
 let selectedAccount;
+
 
 
 function init() {
@@ -64,6 +65,8 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
+  document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint();});
+
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
   document.querySelector("#selected-account-balance").textContent = humanFriendlyBalance + " " + selectedBalanceSymbol;
 
@@ -72,6 +75,24 @@ async function fetchAccountData() {
   document.querySelector("#connected").style.display = "inline-block";
 
 }
+
+async function callStartMint(){
+  console.log("call mint");
+  let contractAddress = "0x51c03204dc33eb484944342163c9bf468b4417aa"; //VRFConsumer
+  console.log(contractAddress);
+  const options = {
+      contractAddress: contractAddress,
+      functionName: "startMint",
+      abi: abis.wordwallVRF,
+      params: {
+        _userMessage: "testMessage1",
+      }
+    }
+    let  transaction = await Moralis.executeFunction(options);
+    const receipt = await transaction.wait();
+    console.log(receipt);
+}
+
 
 async function refreshAccountData() {
   document.querySelector("#connected").style.display = "none";
@@ -95,13 +116,39 @@ async function onConnect() {
     } else {
       moralisProvider = "metamask";
     }
-    await Moralis.enableWeb3({ provider: moralisProvider });
+    provider = await Moralis.enableWeb3({ provider: moralisProvider });
 
   } catch(e) {
     console.log("Could not get a wallet connection", e);
     return;
   }
 
+
+  filter = {
+    address: db["testnet"]["Contracts"].WordWallMinter,
+    topics: [
+        // the name of the event, parnetheses containing the data type of each event, no spaces
+        ethers.utils.id("MintMessage(string)")
+    ]
+  }
+
+
+  wordWallContract = new ethers.Contract( db["testnet"]["Contracts"].WordWallMinter, abis.wordwall, provider);
+
+  let events = await ethers.Contract.filters.MintMessage()
+  console.log(events);
+
+  provider.on(filter, (log, event) => {
+    // do whatever you want here 
+
+    let iface = new ethers.utils.Interface(abis.wordwall);
+
+    parseEvent = iface.parseLog(log);
+    console.log("event triggered");
+    console.log(parseEvent.args[0].message);
+  })
+
+  
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
     fetchAccountData();
