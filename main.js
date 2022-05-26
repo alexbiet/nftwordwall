@@ -72,7 +72,7 @@ async function fetchAccountData() {
 
   // Display fully loaded UI for wallet data
   document.querySelector("#not-connected").style.display = "none";
-  document.querySelector("#connected").style.display = "inline-block";
+  document.querySelector("#connected").style.display = "block";
 
 }
 
@@ -213,4 +213,29 @@ window.addEventListener('load', async () => {
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
 
+});
+
+
+
+// Draggable Modal
+
+var myModal = document.getElementById('mint-modal')
+var myInput = document.getElementById('edit_row_btn')
+
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})
+
+document.getElementById('mint-modal').style.display = 'block';
+// reset modal if it isn't visible
+if (!$(".modal.in").length) {
+$(".modal-dialog").css({
+    top: 0,
+    left: 0,
+});
+}
+
+$(".modal-dialog").draggable({
+    cursor: "move",
+    handle: ".dragable_touch",
 });
