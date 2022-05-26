@@ -89,10 +89,12 @@ body {
 
  .text-purple {
    color: #8247E5 !important;
+   text-decoration: none;
  }
 
  .text-purple:hover {
     color: #8f59eb !important;
+    text-decoration: none;
   }
 
 /* Form Control */
