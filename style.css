@@ -1,3 +1,69 @@
 body {
-    background-color: azure;
+    background-image: url('/images/background.jpg');
+    background-size: 100%;
+
 }
+
+
+/* Draggable Modal */
+
+.modal-header {
+    border-bottom: 0;
+}
+
+.modal-content {
+    background-color: rgb(15 15 15 / 90%);
+    box-shadow: 2px 2px 0px 3px rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    width: 430px;
+}
+.dragable_touch {
+    cursor: pointer;
+}
+
+.modal {
+    z-index: 1;
+}
+
+
+
+/* Web3 Modal */
+
+.web3modal-modal-card {
+    background-color: #0f0f0f !important;
+}
+
+
+.web3modal-provider-container {
+    background-color: #0f0f0f !important;
+}
+
+.web3modal-provider-container:hover {
+    background-color: #1a1a1a !important;
+}
+
+.web3modal-provider-name {
+    color: #fff !important;
+}
+
+.web3modal-provider-description {
+    color: #999 !important;
+}
+
+/* Button */
+
+.btn-purple {
+   background-color: #8247E5;
+   border: 0;
+   border-radius: 6px;
+   color: white;
+   box-shadow: 1px 1px 0px 2px rgb(255 255 255 / 20%)
+}
+.btn-purple:hover,
+.btn-purple:active,
+.btn-purple:focus {
+    background-color: #8f59eb;
+    border: 0;
+    color: white;
+    cursor: pointer;
+ }
