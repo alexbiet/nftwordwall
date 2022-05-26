@@ -104,6 +104,26 @@ async function refreshAccountData() {
   await fetchAccountData(provider);
 }
 
+async function callMint(){
+  console.log("call mint");
+  let contractAddress = db["testnet"]["Contracts"].WordWallMinter;
+  console.log(contractAddress);
+  const options = {
+      contractAddress: contractAddress,
+      functionName: "safeMint",
+      abi: abis.wordwall,
+      params: {
+        to: "0x9518a55e5cd4Ac650A37a6Ab6c352A3146D2C9BD" ,
+        _message: "test",
+        _randomArray: [1,2,3,4,5,6]
+      }
+    }
+    let  transaction = await Moralis.executeFunction(options);
+    const receipt = await transaction.wait();
+    console.log(receipt.events[0]);
+}
+
+
 
 async function onConnect() {
   try {
@@ -148,7 +168,7 @@ async function onConnect() {
     console.log(parseEvent);
   })
 
-  
+
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
     fetchAccountData();
