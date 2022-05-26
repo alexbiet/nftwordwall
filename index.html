@@ -48,24 +48,24 @@
               <div class="modal-content">
                 <div class="modal-header ps-4 dragable_touch">
                   <h5 class="modal-title text-white">✨ MINT YOUR WORDS ✨</h5>
-                  <a href="javascript:;" class="text-secondary minimize" data-bs-toggle="collapse" data-bs-target="#collapseModal" aria-expanded="false" aria-controls="collapseModal"><i class="bi bi-dash-square"></i></a>
+                  <a href="javascript:;" class="text-secondary minimize" data-bs-toggle="collapse" data-bs-target="#collapseModal" aria-expanded="false" aria-controls="collapseModal"><i id="collapse-minus" class="bi bi-dash-square"></i><i id="collapse-plus" class="bi bi-plus-square"></i></a>
                 </div>
-                <div class="modal-body px-4 py-1 text-secondary">
+                <div class="modal-body px-4 py-1">
                     <div class="collapse" id="collapseModal">
 
                         <div class="wallet">
                             <div id="not-connected">
-                                <h4>1. CONNECT</h4>
+                                <h4 class="text-white">1. CONNECT</h4>
                                 <p>Connect your wallet to start minting.</p>
                                 <button class="btn btn-purple" id="btn-connect">Connect Wallet</button>
                                 <br><br><br>
                             </div>
                 
                             <div id="connected" style="display:none">
-                                <h4>1. Wallet</h4>
+                                <h4 class="text-white">1. WALLET</h4>
                                 <div class="row">
                                     <div class="col-12">  
-                                        <p>You are connected on <span class="badge bg-warning text-dark" id="network-name"></span> with the wallet address  <i><strong><span class="text-white" id="selected-account"></span></strong></i> and your balance is <strong><span  class="text-white" id="selected-account-balance"></span></strong>. ( <a href="javascript:;" class="text-secondary" id="btn-disconnect">Logout?</a> )</p>
+                                        <p>You are connected on <span class="badge bg-warning text-dark" id="network-name"></span> with the wallet address  <i><strong><span class="text-white" id="selected-account"></span></strong></i> and your balance is <strong><span  class="text-white" id="selected-account-balance"></span></strong>. <a href="javascript:;" class="text-purple" id="btn-disconnect">Logout?</a></p>
                                     </div>
                                 </div>
                                 <br>
@@ -73,20 +73,22 @@
                           </div>
 
                         <div class="mint">
-                            <h4>2. MINT</h4>
+                            <h4 class="text-white">2. MINT</h4>
                             <p>Mint your words forever on the Word Wall of Polygon for 1 MATIC ($0.65 - live update) per mint.</p>
                             <p>Your minted words are of multipla rarities with variable strenghts, colour schemes, sizes and fonts.</p>
                             <div class="row">
                             <div class="col-9">      
-                            <input type="text" id="mint-word" class="form-control">
+                            <input type="text" id="mint-word" placeholder="🤪 WaazzUUpp!! 🤪" class="form-control">
                             </div>
                             <div class="col-3">
                             <button id="btn-mint" class="btn btn-purple">MINT</button>
                             </div>
+                            <!--<div class="col-13">
+                            <button id="btn-read" class="btn btn-purple">parseNFT</button>-->
                             </div>
+                            </div>
+                            <br><br>
                         </div>
-
-                        <br><br>
                     </div>
                 </div>
               </div>

@@ -116,7 +116,7 @@ async function callMint(){
       abi: db.minterABI,
       params: {
         to: "0x9518a55e5cd4Ac650A37a6Ab6c352A3146D2C9BD" ,
-        _message: "testmessage",
+        _message: usermessage,
         _randomArray: [11,32,23]
       }
     }
@@ -125,6 +125,26 @@ async function callMint(){
     console.log(receipt.events[0]);
 }
 
+
+function parseNFT(data){
+  pos = data.lastIndexOf('|');
+  message = data.substring(0,pos);
+  metadata = data.substring(pos+1);
+
+
+  var nftObject = {}
+
+  nftObject["message"] = message;
+  nftObject["size"]= Number(metadata.slice(0,2));
+  nftObject["color"]= Number(metadata.slice(2,4));
+  nftObject["font"] = Number(metadata.slice(4,6));
+  nftObject["type"] = Number(metadata.slice(6,8));
+  nftObject["xcoord"] = Number(metadata.slice(8,10));
+  nftObject["ycoord"] = Number(metadata.slice(10,12));
+
+  console.log(nftObject);
+  return nftObject;
+}
 
 
 async function onConnect() {
@@ -222,7 +242,6 @@ window.addEventListener('load', async () => {
 // Draggable Modal
 
 var myModal = document.getElementById('mint-modal')
-var myInput = document.getElementById('edit_row_btn')
 
 myModal.addEventListener('shown.bs.modal', function () {
   myInput.focus()
@@ -240,4 +259,19 @@ $(".modal-dialog").css({
 $(".modal-dialog").draggable({
     cursor: "move",
     handle: ".dragable_touch",
+});
+
+$("#collapse-minus").hide();
+$("#collapse-plus").show();
+
+
+
+$('#mint-modal').on('shown.bs.collapse', function () {
+    $("#collapse-minus").show();
+    $("#collapse-plus").hide();
+});
+
+$('#mint-modal').on('hidden.bs.collapse', function () {
+    $("#collapse-plus").show();
+    $("#collapse-minus").hide();
 });
