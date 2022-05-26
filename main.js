@@ -47,8 +47,11 @@ async function fetchAccountData() {
   const chainId = await web3.eth.getChainId();
   const chainData = evmChains.getChain(chainId);
   let network = chainData["network"];
-  //console.log("Web3 instance is", web3, "Network is: " + network);
+  console.log("Web3 instance is", chainData, "Network is: " + network);
   document.querySelector("#network-name").textContent = chainData.name;
+
+
+  getChainlinkData(chainId);
 
 
 
@@ -65,7 +68,8 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
-  document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint();});
+  document.querySelector("#btn-mint").addEventListener("click", function () {  callMint(document.getElementById("mint-word").value);});
+  //document.querySelector("#btn-read").addEventListener("click", function () {  parseNFT("testing|12345678998765");});
 
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
   document.querySelector("#selected-account-balance").textContent = humanFriendlyBalance + " " + selectedBalanceSymbol;
@@ -80,6 +84,25 @@ inputEl = document.getElementById("mint-word");
 testInputEl = document.getElementById("test-input");
 
 document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
+async function getChainlinkData(chainId){
+  console.log(chainId)
+
+  const aggregatorV3InterfaceABI = db.aggregatorV3InterfaceABI;
+
+  const addr = db.priceFeedAddresses[chainId]
+  const priceFeed = new ethers.Contract(addr, aggregatorV3InterfaceABI, provider)
+  const decimals = await priceFeed.decimals();
+
+  priceFeed.latestRoundData()
+      .then((roundData) => {
+          // Do something with roundData
+          num = ethers.BigNumber.from(roundData[1]) / 10 ** decimals
+          priceSpan = document.getElementById("matic-price");
+          priceSpan.innerHTML = num.toFixed(2);
+          
+      })
+
+}
 
 async function callStartMint(){
   console.log("call mint");
@@ -150,9 +173,9 @@ function parseNFT(data){
   nftObject["size"]= Number(metadata.slice(0,2));
   nftObject["color"]= Number(metadata.slice(2,4));
   nftObject["font"] = Number(metadata.slice(4,6));
-  nftObject["type"] = Number(metadata.slice(6,8));
-  nftObject["xcoord"] = Number(metadata.slice(8,10));
-  nftObject["ycoord"] = Number(metadata.slice(10,12));
+  nftObject["duration"] = Number(metadata.slice(6,8));
+  nftObject["xcoord"] = Number(metadata.slice(8,11));
+  nftObject["ycoord"] = Number(metadata.slice(11,14));
 
   console.log(nftObject);
   return nftObject;
@@ -194,7 +217,6 @@ async function onConnect() {
         ethers.utils.id("MintMessage(string)")
     ]
   }
-
 
 
   wordWallContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
