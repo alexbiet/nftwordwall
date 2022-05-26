@@ -25,6 +25,19 @@ body {
     z-index: 1;
 }
 
+.minimize {
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: rgb(0 0 0 / 0%);
+    border: 1px solid rgb(255 255 255 / 14%);
+}
+
+
+.minimize:hover {
+    display: block;
+    background-color: #000;
+}
+
 
 
 /* Web3 Modal */
