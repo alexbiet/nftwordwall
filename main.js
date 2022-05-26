@@ -65,7 +65,7 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
-  document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint();});
+  document.querySelector("#btn-mint").addEventListener("click", function () {  callMint();});
 
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
   document.querySelector("#selected-account-balance").textContent = humanFriendlyBalance + " " + selectedBalanceSymbol;
@@ -106,7 +106,7 @@ async function refreshAccountData() {
 
 async function callMint(){
   console.log("call mint");
-  let contractAddress = db["testnet"]["Contracts"].WordWallMinter;
+  let contractAddress = "0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7";
   console.log(contractAddress);
   const options = {
       contractAddress: contractAddress,
@@ -114,8 +114,8 @@ async function callMint(){
       abi: abis.wordwall,
       params: {
         to: "0x9518a55e5cd4Ac650A37a6Ab6c352A3146D2C9BD" ,
-        _message: "test",
-        _randomArray: [1,2,3,4,5,6]
+        _message: "testmessage",
+        _randomArray: [11,32,23]
       }
     }
     let  transaction = await Moralis.executeFunction(options);
@@ -151,6 +151,7 @@ async function onConnect() {
         ethers.utils.id("MintMessage(string)")
     ]
   }
+
 
 
   wordWallContract = new ethers.Contract("0x7Ae0e8F9830FcefdC58DF9f767c44f2429EBf9B7", abis.wordwall, provider);
