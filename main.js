@@ -109,7 +109,7 @@ async function getChainlinkData(chainId){
 
 async function getNFTData(_tokenId) {
 console.log(mintContract)
-let NFTData =  await mintContract.requestIdToAttributes(_tokenId);
+let NFTData =  await mintContract.requestIdToMessage(_tokenId);
 let NFTOwner = await mintContract.ownerOf(_tokenId);
 console.log(NFTOwner);
 parseNFT(NFTData, NFTOwner)
