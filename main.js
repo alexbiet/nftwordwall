@@ -111,8 +111,9 @@ async function getChainlinkData(chainId){
 async function getNFTData(_tokenId) {
 console.log(mintContract)
 let NFTData =  await mintContract.requestIdToAttributes(_tokenId);
-console.log(NFTData);
-console.log(parseNFT(NFTData))
+let NFTOwner = await mintContract.ownerOf(_tokenId);
+console.log(NFTOwner);
+parseNFT(NFTData, NFTOwner)
 }
 
 
@@ -137,23 +138,44 @@ async function callStartMint(){
 
 
 
-function parseNFT(data){
+function parseNFT(data, owner){
   console.log(data)
   pos = data.lastIndexOf('|');
   message = data.substring(0,pos-1);
   metadata = data.substring(pos+2);
 
+  console.log(message);
 
   var nftObject = {}
-  nftObject["message"] = message;
-  nftObject["size"]= Number(metadata.slice(0,2));
-  nftObject["color"]= Number(metadata.slice(2,4));
-  nftObject["font"] = Number(metadata.slice(4,6));
-  nftObject["duration"] = Number(metadata.slice(6,8));
+
+
   nftObject["xcoord"] = Number(metadata.slice(8,11));
   nftObject["ycoord"] = Number(metadata.slice(11,14));
-  console.log(nftObject);
-  return nftObject;
+  nftObject["message"] = message;
+  nftObject["owner"] = owner; 
+
+
+  var attr_names = ["color", "font", "size", "duration"]
+
+  for(let i= 0; i<8; i+=2){
+    let category= attr_names[i/2];
+
+    let value = Number(metadata.slice(i,i+2));
+    value = (value % 6) +1;
+    
+    let id_class = category+ "-" + value
+    nftObject[category] = id_class;
+
+  }
+
+
+  console.log(nftObject["message"]);
+
+  var targetDiv = document.getElementById('testDiv');
+  targetDiv.innerHTML = "<wall-message message="+nftObject["message"]+" owner="+ nftObject["owner"]+" xcoord="+ nftObject["xcoord"]+" ycoord="+ nftObject["ycoord"]+" color="+ nftObject["color"]+" font="+ nftObject["font"] +" size="+nftObject["size"] +" duration="+nftObject["duration"] +"></wall-message>"
+
+
+  //return nftObject;
 }
 
 
