@@ -1,6 +1,8 @@
 body {
-    background-image: url('/images/background.jpg');
-    background-size: 100%;
+    background-image: url('/images/background.jpg'); 
+    background-position: top;
+    background-repeat: repeat;
+    background-size: cover;
 }
 
 
@@ -112,7 +114,7 @@ body {
     color: #e5e5e5;
     background-color: #131313;
     border: 1px solid #8247E5;
-    padding: 14px 10px;
+    padding: 14px 15px;
     font-size: 1.2rem;
 }
 
@@ -128,4 +130,145 @@ body {
 
 .badge {
     padding: 4px 6px 2px 6px;
+}
+
+
+
+/* Word Wall */
+
+.word {
+    padding: 20px 10px;
+    max-width: 25vw;
+    z-index: 999999;
+    border-radius: 10px;
+    position: relative;
+    overflow: visible;
+}
+
+.word > .blur {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    filter: blur(30px);
+    border-radius: 10px;
+    z-index:-2;
+}
+
+.color-1, .color-1 a {
+    color: #F002BC;
+}
+
+.color-1 > .blur {
+    background-color: rgba(39, 10, 67, 0.9);
+}
+
+.color-2, .color-2 a {
+    color: #F00202;
+}
+
+.color-2 > .blur {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.color-3, .color-3 a {
+    color: #FF5C00;
+}
+.color-3 > .blur {
+    background-color: rgba(6, 24, 36, 0.9);
+}
+
+.color-4, .color-4 a {
+    color: #14FF00;
+}
+.color-4 > .blur {
+    background-color: rgba(5, 59, 89, 0.9);
+}
+
+.color-5, .color-5 a {
+    color: #00FFFF;
+}
+.color-5 > .blur {
+    background-color: rgba(7, 5, 89, 0.9);
+}
+.color-6, .color-6 a {
+    color: #FFFFFF;
+}
+.color-6 > .blur {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
+
+
+.font-1 {
+    font-family: "Arial", serif;
+}
+
+.font-2 {
+    font-family: "Arial", serif;
+}
+
+.font-3 {
+    font-family: "Arial", serif;
+}
+
+.font-4 {
+    font-family: "Arial", serif;
+}
+
+.font-5 {
+    font-family: "Arial", serif;
+}
+.font-5 {
+    font-family: "Arial", serif;
+}
+.font-6 {
+    font-family: "Arial", serif;
+}
+
+.size-1 {
+    max-width: 10vw;
+}
+
+.size-1 p {
+    font-size: 0.6rem;
+}
+
+.size-2 {
+    max-width: 15vw;
+}
+.size-2 p {
+    font-size: 0.8rem;
+}
+
+.size-3 {
+    max-width: 20vw;
+}
+.size-3 p {
+    font-size: 1rem;
+}
+
+.size-4 {
+    max-width: 25vw;
+}
+.size-4 p {
+    font-size: 1.2rem;
+}
+
+.size-5 {
+    max-width: 30vw;
+}
+.size-5 p {
+    font-size: 1.4rem;
+}
+
+.size-6 {
+    max-width: 30vw;
+}
+.size-6 p {
+    font-size: 1.6rem;
+}
+
+.row.dev > div {
+    border: 1px solid #999;
+    color: #999;
 }
