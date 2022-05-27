@@ -1,7 +1,7 @@
 var db = {
 
-    minterAddress: "0x122a003800341Ef77101106aFf875E9f65A9a94E",
-    vrfAddress: "0xC2404b2Bd373EcbcCd5236704D6601AB14F300c5",
+    minterAddress: "0xd3f603CB6Da906FB86616b59BEe6121edCD9dE0A",
+    vrfAddress: "0x7E87302B41DbF9c1A1bb3187Dc9FB76f02800531",
 
     priceFeedAddresses: {
       "1": "0x7bAC85A8a13A4BcD8abb3eB7d6b4d632c5a57676",
