@@ -37,10 +37,6 @@ body {
     cursor: pointer;
 }
 
-.modal {
-    z-index: 1;
-}
-
 .minimize {
     padding: 10px 15px 8px;
     border-radius: 8px;
@@ -109,6 +105,14 @@ body {
     color: #8f59eb !important;
     text-decoration: none;
   }
+
+.link-purple {
+    color: #8247E5 !important;
+}
+ 
+.link-purple:hover {
+    color: #8f59eb !important;
+}
 
 /* Form Control */
 
@@ -274,4 +278,16 @@ body {
 .row.dev > div {
     border: 1px solid #999;
     color: #999;
+}
+
+#easterEgg .modal-content {
+    width: 460px;
+}
+
+.footer-style {
+    text-shadow: 1px 1px 0px #000;
+    background-color: rgb(15 15 15 / 90%);
+    box-shadow: 2px 2px 0px 3px rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    z-index: 9999999;
 }

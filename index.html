@@ -43,6 +43,25 @@
             <a href="/" class="text-decoration-none">
                 <img src="./images/logo.svg" class="bi me-2" alt="NFT Word Walls" style="max-width: 320px;">
             </a>
+            <!-- Easter Egg! -->
+            <a href="/" class="text-decoration-none" style="z-index:99;position: absolute;display:inline-block;" data-bs-toggle="modal" data-bs-target="#easterEgg"> ✨ </a>
+            <!-- Easter Egg Modal -->
+            <div class="modal fade" style="z-index:9999999;" id="easterEgg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" style="color:#999" id="exampleModalLabel">You found the easter egg!! 🎊 🎆 🎉</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <video width="420" height="420" autoplay muted>
+                            <source src="images/WordWalletNFT.mp4" type="video/mp4">
+                          Your browser does not support the video tag.
+                          </video>
+                    </div>
+                </div>
+                </div>
+            </div>
         </header>
 
         <div class="container-fluid" >
@@ -93,7 +112,7 @@
 
 
         <!-- Draggable Modal -->
-        <div class="modal" tabindex="-1" id="mint-modal">
+        <div class="modal" tabindex="-1" id="mint-modal" style="z-index:1;">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header ps-4 dragable_touch">
@@ -149,6 +168,16 @@
             </div>
           </div>
 
+
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <footer class="py-3 my-4 footer-style col-6">
+                    <br>
+                    <p class="text-center text-purple">Late night hacking over ☕ with <a href="https://twitter.com/SokoMining" target="_blank" class="link-purple">Albo</a>, <a href="https://twitter.com/alex_biet" target="_blank" class="link-purple">Alex</a> and <a href="https://twitter.com/0xNuggan" target="_blank" class="link-purple">Nuggan</a><br> at the <a href="https://chain.link/hackathon/" target="_blank" class="link-purple">Chainlink Spring 2022 Hackathon</a></p>
+                </footer>
+            </div>
+        </div>
 
         <!-- Scripts -->
         <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.7/dist/index.js"></script>
