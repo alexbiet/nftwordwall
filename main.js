@@ -149,8 +149,8 @@ function parseNFT(data, owner){
   var nftObject = {}
 
 
-  nftObject["xcoord"] = Number(metadata.slice(8,11));
-  nftObject["ycoord"] = Number(metadata.slice(11,14));
+  nftObject["xcoord"] = Number(metadata[8] % 4);
+  nftObject["ycoord"] = Number(metadata[9] % 4);
   nftObject["message"] = message;
   nftObject["owner"] = owner; 
 
@@ -171,7 +171,9 @@ function parseNFT(data, owner){
 
   console.log(nftObject["message"]);
 
-  var targetDiv = document.getElementById('testDiv');
+  cellID = "cell-" + nftObject["xcoord"] + "-" + nftObject["ycoord"];
+
+  var targetDiv = document.getElementById(cellID);
   targetDiv.innerHTML = "<wall-message message="+nftObject["message"]+" owner="+ nftObject["owner"]+" xcoord="+ nftObject["xcoord"]+" ycoord="+ nftObject["ycoord"]+" color="+ nftObject["color"]+" font="+ nftObject["font"] +" size="+nftObject["size"] +" duration="+nftObject["duration"] +"></wall-message>"
 
 
@@ -247,7 +249,20 @@ async function onConnect() {
   await refreshAccountData();
 }
 
+function generateTable(columns, rows){
+  let tableHTML=`<table style="width:100%">`;
+  for(let i=0; i<rows; i++){
+    tableHTML += `<tr>`;
+    for(let j=0; j<columns; j++){
+      tableHTML += `<td id="cell-` + i + `-` + j +`">.</td>`; 
+    }
+    tableHTML += "</tr>";
+  }
+  tableHTML += "</table>";
 
+
+  return tableHTML;
+}
 
 async function onDisconnect() {
 
@@ -272,6 +287,8 @@ window.addEventListener('load', async () => {
   if(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER")) await onConnect();
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
+
+  document.getElementById("table-container").innerHTML = generateTable(4,4);
 
   
 
