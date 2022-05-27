@@ -68,7 +68,7 @@ async function fetchAccountData() {
     selectedBalanceSymbol = chainData["nativeCurrency"].symbol;
   }
 
-  document.querySelector("#btn-mint").addEventListener("click", function () {  callMint(document.getElementById("mint-word").value);});
+  document.querySelector("#btn-mint").addEventListener("click", function () {  callStartMint(document.getElementById("mint-word").value);});
   //document.querySelector("#btn-read").addEventListener("click", function () {  parseNFT("testing|12345678998765");});
 
   document.querySelector("#selected-account").textContent = selectedAccount.substring(0,6) + "..." + selectedAccount.slice(-4);
@@ -104,7 +104,7 @@ async function getChainlinkData(chainId){
 }
 
 async function callStartMint(){
-  console.log("call mint");
+  console.log("call startMint");
   userMessage = inputEl.value;
   let contractAddress = db.vrfAddress; //VRFConsumer
   const options = {
@@ -112,7 +112,7 @@ async function callStartMint(){
       functionName: "startMint",
       abi: db.vrfABI,
       params: {
-        _userMessage: "testMessage1",
+        _userMessage: userMessage,
       },
       msgValue: 1000000000000000,
     }
@@ -121,32 +121,11 @@ async function callStartMint(){
     console.log(receipt);
 }
 
-async function callMint(){
-  console.log("call mint()");
-  let contractAddress = db.minterAddress;
-  console.log(contractAddress);
-  const options = {
-      contractAddress: contractAddress,
-      functionName: "safeMint",
-      abi: db.minterABI,
-      params: {
-        to: "0x9518a55e5cd4Ac650A37a6Ab6c352A3146D2C9BD" ,
-        _message: usermessage,
-        _randomArray: [11,32,23]
-      }
-    }
-    let  transaction = await Moralis.executeFunction(options);
-    const receipt = await transaction.wait();
-    console.log(receipt.events[0]);
-}
-
-
-
 async function getNFTData(_tokenId){
   console.log("getNFTData()");
-  console.log(_tokenId);
-  //let tokenId = ethers.BigNumber.from(_tokenId).toString();
   let tokenId = _tokenId;
+  tokenId = ethers.BigNumber.from(tokenId);
+  console.log(tokenId);
   let contractAddress = db.minterAddress;
   const options = {
       contractAddress: contractAddress,
