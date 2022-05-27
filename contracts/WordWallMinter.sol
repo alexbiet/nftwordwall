@@ -15,6 +15,7 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
 
     mapping(uint256 => string) public requestIdToMessage;
     mapping(uint256 => uint256) public requestIdToTokenId;
+    uint256 public tokenId = 0;
     address private VRFContractAddress;
 
     event MintMessage(string message);
@@ -22,27 +23,26 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
     constructor() ERC721("WordWallStringMinter", "WWS") {}
 
     function safeMint(address to, string memory _message, uint256 _requestId) public onlyVRFContract {
-        uint256 tokenId = _tokenIdCounter.current();
+        tokenId = _tokenIdCounter.current();
         string memory message = _message;
 
         _tokenIdCounter.increment();
         requestIdToMessage[tokenId] = message;
         requestIdToTokenId[_requestId] = tokenId;
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, "defaultURI");  //add defaultURI
+        _setTokenURI(tokenId, "https://bafybeigfltfqhlporfnwoeqiwoxj6ezw5ymqvd3ykfywqbkn4q6lxxhx5i.ipfs.infura-ipfs.io/");  //add defaultURI
+      
+       
         emit MintMessage(message);
     }
-    function testFunct(uint256 _randomNum, uint256 _requestId) external onlyVRFContract returns(uint256) {
-        return 2;
-    }
-
-    function updateURI(uint256 _randomNum, uint256 _requestId) external onlyVRFContract {
-         string memory newUriPath;
-         newUriPath = Strings.toString(_randomNum);
-         newUriPath = string.concat( "uriMainDirectory" , newUriPath);
-         _setTokenURI(requestIdToTokenId[_requestId], newUriPath);
-
+     
+    function updateURI(uint256 _requestId, uint256 _randomNum) external onlyVRFContract {
+        string memory newUriPath;
+        newUriPath = Strings.toString(_randomNum);
+        newUriPath = string.concat( "uriMainDirectory" , newUriPath);
+        _setTokenURI(requestIdToTokenId[_requestId], "https://bafybeigfltfqhlporfnwoeqiwoxj6ezw5ymqvd3ykfywqbkn4q6lxxhx5i.ipfs.infura-ipfs.io/");
      }
+
 
     function tokenURI(uint256 tokenId)
         public
