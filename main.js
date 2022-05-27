@@ -145,7 +145,6 @@ async function callMint(){
 
 async function getNFTData(_tokenId){
   console.log("getNFTData()");
-  console.log(_tokenId);
   let tokenId = _tokenId;
   let contractAddress = db.minterAddress;
   const options = {
@@ -156,7 +155,7 @@ async function getNFTData(_tokenId){
         tokenId: tokenId,
       }
     }
-    console.log(Moralis.executeFunction(options));
+    console.log(await Moralis.executeFunction(options));
 
 }
 
