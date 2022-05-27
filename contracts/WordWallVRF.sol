@@ -49,7 +49,7 @@ contract WordWallVRF is VRFConsumerBaseV2, Ownable {
     s_owner = msg.sender;
   }
    // Assumes the subscription is funded sufficiently.
-  function requestRandomWords() public onlyOwner returns (uint256) { 
+  function requestRandomWords() internal returns (uint256) { 
     // Will revert if subscription is not set and funded.
     uint256 s_requestId = COORDINATOR.requestRandomWords(
       keyHash,
