@@ -32,7 +32,9 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
         _setTokenURI(tokenId, "defaultURI");  //add defaultURI
         emit MintMessage(message);
     }
-
+    function testFunct(uint256 _randomNum, uint256 _requestId) external onlyVRFContract returns(uint256) {
+        return 2;
+    }
 
     function updateURI(uint256 _randomNum, uint256 _requestId) external onlyVRFContract {
          string memory newUriPath;
