@@ -4,21 +4,21 @@ let appId = "MUEMJ6Nck6DWuhKWVhhJJjsCCfyzTSJviAQ2xZkq";
 
 Moralis.start({ serverUrl, appId });
 
-const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-const ethers = Moralis.web3Library;
 
 
-
-////////////////
-///Web3 Modal///
-////////////////
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
 const evmChains = window.evmChains;
 
+
+let web3;
+let ethers;
+
 let web3Modal;
+
 let provider;
 let selectedAccount;
+let mintContract;
 
 
 
@@ -42,18 +42,16 @@ function init() {
 
 
 async function fetchAccountData() {
-
-  //const web3 = new Web3(provider);
+  
+  ethers = Moralis.web3Library;
+  web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  
   const chainId = await web3.eth.getChainId();
   const chainData = evmChains.getChain(chainId);
   let network = chainData["network"];
-  //console.log("Web3 instance is", web3, "Network is: " + network);
   document.querySelector("#network-name").textContent = chainData.name;
 
-
   getChainlinkData(chainId);
-
-
 
   const accounts = await web3.eth.getAccounts();
   selectedAccount = accounts[0];
@@ -61,7 +59,6 @@ async function fetchAccountData() {
   const selectedEthBalance = web3.utils.fromWei(selectedAccountBalance, "ether");
   const humanFriendlyBalance = parseFloat(selectedEthBalance).toFixed(4);
   let selectedBalanceSymbol = "ETH";
-
   if(network === "rinkeby"){
     selectedBalanceSymbol = "ETH";
   }else {
@@ -78,12 +75,22 @@ async function fetchAccountData() {
   document.querySelector("#not-connected").style.display = "none";
   document.querySelector("#connected").style.display = "block";
 
+
+  mintContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
+  //getNFTData(0);
+  document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
+
+  async function getNFTData(_tokenId) {
+    console.log(mintContract)
+  let NFTData =  await mintContract.requestIdToAttributes(0);
+  console.log(NFTData);
+  }
 }
 
 inputEl = document.getElementById("mint-word");
 testInputEl = document.getElementById("test-input");
 
-document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
+
 async function getChainlinkData(chainId){
 
   const aggregatorV3InterfaceABI = db.aggregatorV3InterfaceABI;
@@ -121,29 +128,10 @@ async function callStartMint(){
     console.log(receipt);
 }
 
-async function getNFTData(_tokenId){
-  console.log("getNFTData()");
-  let tokenId = _tokenId;
-  tokenId = ethers.BigNumber.from(tokenId);
-  console.log(tokenId);
-  let contractAddress = db.minterAddress;
-  const options = {
-      contractAddress: contractAddress,
-      functionName: "requestIdToAttributes",
-      abi: db.minterABI,
-      params: {
-        tokenId: tokenId,
-      }
-    }
-
-    let output = await Moralis.executeFunction(options);
-    console.log(output);
-    parseNFT(output);
-
-}
 
 
 function parseNFT(data){
+  console.log(data)
   pos = data.lastIndexOf('|');
   message = data.substring(0,pos-1);
   metadata = data.substring(pos+2);
@@ -192,29 +180,27 @@ async function onConnect() {
   }
 
 
-  filter = {
-    address: db.minterAddress,
-    topics: [
-        // the name of the event, parnetheses containing the data type of each event, no spaces
-        ethers.utils.id("MintMessage(string)")
-    ]
-  }
+  // filter = {
+  //   address: db.minterAddress,
+  //   topics: [
+  //       // the name of the event, parnetheses containing the data type of each event, no spaces
+  //       ethers.utils.id("MintMessage(string)")
+  //   ]
+  // }
 
 
-  wordWallContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
-
-  // let events = await ethers.Contract.filters.MintMessage()
+   //let events = await ethers.Contract.filters.MintMessage()
   // console.log(events);
 
-   provider.on(filter, (log, event) => {
+  //  provider.on(filter, (log, event) => {
     // do whatever you want here 
 
-    let iface = new ethers.utils.Interface(db.minterABI);
+    // let iface = new ethers.utils.Interface(db.minterABI);
 
-    parseEvent = iface.parseLog(log);
-    console.log("event triggered");
-    console.log(parseEvent);
-  })
+    // parseEvent = iface.parseLog(log);
+    // console.log("event triggered");
+    // console.log(parseEvent);
+  // })
 
 
   // Subscribe to accounts change
@@ -259,6 +245,8 @@ window.addEventListener('load', async () => {
   if(localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER")) await onConnect();
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
+
+  
 
 });
 
