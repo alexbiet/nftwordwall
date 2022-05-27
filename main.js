@@ -228,7 +228,7 @@ async function onConnect() {
     // console.log("event triggered");
     // console.log(parseEvent);
   // })
-
+  
 
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
@@ -246,8 +246,6 @@ async function onConnect() {
   });
   await refreshAccountData();
 }
-
-
 
 async function onDisconnect() {
 

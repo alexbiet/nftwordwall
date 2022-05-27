@@ -13,34 +13,33 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
-    mapping(uint256 => string) public requestIdToMessage;
-    mapping(uint256 => uint256) public requestIdToTokenId;
+    mapping(uint256 => string) public requestIdToAttributes;
     address private VRFContractAddress;
 
     event MintMessage(string message);
 
     constructor() ERC721("WordWallStringMinter", "WWS") {}
 
-    function safeMint(address to, string memory _message, uint256 _requestId) public onlyVRFContract {
+    function safeMint(address to, string memory _message, uint256 _randomNum) public onlyVRFContract {
         uint256 tokenId = _tokenIdCounter.current();
         string memory message = _message;
+        string memory randomVals;
+         randomVals = Strings.toString(_randomNum);
+         randomVals = string.concat( " | " , randomVals);
+         message = string.concat(message, randomVals);
 
         _tokenIdCounter.increment();
-        requestIdToMessage[tokenId] = message;
-        requestIdToTokenId[_requestId] = tokenId;
+
+        requestIdToAttributes[tokenId] = message;
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, "defaultURI");  //add defaultURI
+        _setTokenURI(tokenId, message);
+
         emit MintMessage(message);
     }
 
-
-    function updateURI(uint256 _randomVals, uint256 _requestId) external onlyVRFContract {
-         string memory newUriPath;
-         newUriPath = Strings.toString(_randomVals);
-         newUriPath = string.concat( "uriMainDirectory" , newUriPath);
-         _setTokenURI(requestIdToTokenId[_requestId], newUriPath);
-
-     }
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) onlyOwner {
+        super._burn(tokenId);
+    }
 
     function tokenURI(uint256 tokenId)
         public
@@ -50,11 +49,6 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
     {  
          return super.tokenURI(tokenId);
     }
-
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) onlyOwner {
-        super._burn(tokenId);
-    }
-    
     function setVRFContract(address _newVRFContractAddress) public onlyOwner {
         VRFContractAddress = _newVRFContractAddress;
     }
