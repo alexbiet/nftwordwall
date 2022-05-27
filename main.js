@@ -80,12 +80,10 @@ async function fetchAccountData() {
   //getNFTData(0);
   document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
 
-  async function getNFTData(_tokenId) {
-    console.log(mintContract)
-  let NFTData =  await mintContract.requestIdToAttributes(0);
-  console.log(NFTData);
-  }
+
 }
+
+
 
 inputEl = document.getElementById("mint-word");
 testInputEl = document.getElementById("test-input");
@@ -109,6 +107,15 @@ async function getChainlinkData(chainId){
       })
 
 }
+
+async function getNFTData(_tokenId) {
+console.log(mintContract)
+let NFTData =  await mintContract.requestIdToAttributes(_tokenId);
+console.log(NFTData);
+console.log(parseNFT(NFTData))
+}
+
+
 
 async function callStartMint(){
   console.log("call startMint");
@@ -138,7 +145,6 @@ function parseNFT(data){
 
 
   var nftObject = {}
-
   nftObject["message"] = message;
   nftObject["size"]= Number(metadata.slice(0,2));
   nftObject["color"]= Number(metadata.slice(2,4));
@@ -146,7 +152,6 @@ function parseNFT(data){
   nftObject["duration"] = Number(metadata.slice(6,8));
   nftObject["xcoord"] = Number(metadata.slice(8,11));
   nftObject["ycoord"] = Number(metadata.slice(11,14));
-
   console.log(nftObject);
   return nftObject;
 }
