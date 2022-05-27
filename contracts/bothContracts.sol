@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 
-contract WordWallVRF is VRFConsumerBaseV2 {
+contract WordWallVRF is VRFConsumerBaseV2, Ownable {
   VRFCoordinatorV2Interface COORDINATOR;
 
   // Your subscription ID.
@@ -46,6 +46,9 @@ contract WordWallVRF is VRFConsumerBaseV2 {
   address public userAddress;
   address stringMinterAddress;
   address s_owner;
+  address private chainLinkVRFResponse;
+
+  
 
   constructor(address _stringMinterAddress) VRFConsumerBaseV2(vrfCoordinator) {
     stringMinterAddress = _stringMinterAddress;
@@ -54,7 +57,7 @@ contract WordWallVRF is VRFConsumerBaseV2 {
   }
 
   // Assumes the subscription is funded sufficiently.
-  function requestRandomWords() public { //onlyOwner
+  function requestRandomWords() public onlyOwner{ 
     // Will revert if subscription is not set and funded.
     s_requestId = COORDINATOR.requestRandomWords(
       keyHash,
@@ -68,7 +71,7 @@ contract WordWallVRF is VRFConsumerBaseV2 {
   function fulfillRandomWords(uint256 _requestId, /* requestId */
     uint256[] memory _randomWords) internal override {
     randomNum = _randomWords[0]; 
-    randomNum = (randomNum % 1000000000000000);  // values?
+    randomNum = (randomNum % 10000000000000000);  // values?
     requestIdToAddress[_requestId] = userAddress;
     requestIdToRandomNums[_requestId] = randomNum;
 
@@ -83,10 +86,19 @@ contract WordWallVRF is VRFConsumerBaseV2 {
         requestRandomWords();
     }
 
-//   modifier onlyOwner() {
-//     require(msg.sender == s_owner);
-//     _;
-//   }
+  function setChainLinkAddress(address _newChainLinkAddress) public onlyOwner {
+    chainLinkVRFResponse = _newChainLinkAddress;
+  }
+
+  function withdrawlFunds() public onlyOwner {
+    address payable to = payable(s_owner);
+    to.transfer(address(this).balance);
+  }
+
+   modifier onlyChainLinkResponse() {
+     require(msg.sender == chainLinkVRFResponse, "must be ChainLinkResponse");
+     _;
+   }
 }
 
 contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
@@ -95,12 +107,13 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
     Counters.Counter private _tokenIdCounter;
 
     mapping(uint256 => string) public requestIdToAttributes;
+    address private VRFContractAddress;
 
     event MintMessage(string message);
 
     constructor() ERC721("WordWallStringMinter", "WWS") {}
 
-    function safeMint(address to, string memory _message, uint256 _randomNum) public {
+    function safeMint(address to, string memory _message, uint256 _randomNum) public onlyVRFContract {
         uint256 tokenId = _tokenIdCounter.current();
         string memory message = _message;
         string memory randomVals;
@@ -117,7 +130,7 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
         emit MintMessage(message);
     }
 
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) onlyOwner {
         super._burn(tokenId);
     }
 
@@ -128,6 +141,14 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
         returns (string memory)
     {  
          return super.tokenURI(tokenId);
+    }
+    function setVRFContract(address _newVRFContractAddress) public onlyOwner {
+        VRFContractAddress = _newVRFContractAddress;
+    }
+
+    modifier onlyVRFContract() {
+      require(msg.sender == VRFContractAddress, "must be VRFContract");
+      _;
     }
 
 
