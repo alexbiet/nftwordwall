@@ -47,7 +47,7 @@ async function fetchAccountData() {
   const chainId = await web3.eth.getChainId();
   const chainData = evmChains.getChain(chainId);
   let network = chainData["network"];
-  console.log("Web3 instance is", chainData, "Network is: " + network);
+  //console.log("Web3 instance is", web3, "Network is: " + network);
   document.querySelector("#network-name").textContent = chainData.name;
 
 
@@ -85,7 +85,6 @@ testInputEl = document.getElementById("test-input");
 
 document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
 async function getChainlinkData(chainId){
-  console.log(chainId)
 
   const aggregatorV3InterfaceABI = db.aggregatorV3InterfaceABI;
 
@@ -146,6 +145,7 @@ async function callMint(){
 async function getNFTData(_tokenId){
   console.log("getNFTData()");
   console.log(_tokenId);
+  //let tokenId = ethers.BigNumber.from(_tokenId).toString();
   let tokenId = _tokenId;
   let contractAddress = db.minterAddress;
   const options = {
@@ -156,15 +156,18 @@ async function getNFTData(_tokenId){
         tokenId: tokenId,
       }
     }
-    console.log(Moralis.executeFunction(options));
+
+    let output = await Moralis.executeFunction(options);
+    console.log(output);
+    parseNFT(output);
 
 }
 
 
 function parseNFT(data){
   pos = data.lastIndexOf('|');
-  message = data.substring(0,pos);
-  metadata = data.substring(pos+1);
+  message = data.substring(0,pos-1);
+  metadata = data.substring(pos+2);
 
 
   var nftObject = {}
