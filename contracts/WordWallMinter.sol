@@ -34,7 +34,7 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
     }
 
 
-    function updateURI(uint256 _randomNum, uint256 _requestId) public onlyVRFContract {
+    function updateURI(uint256 _randomNum, uint256 _requestId) external onlyVRFContract {
          string memory newUriPath;
          newUriPath = Strings.toString(_randomNum);
          newUriPath = string.concat( "uriMainDirectory" , newUriPath);
