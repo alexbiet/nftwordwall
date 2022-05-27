@@ -386,7 +386,7 @@ var db = {
         "inputs": [
           {
             "internalType": "uint256",
-            "name": "",
+            "name": "tokenId",
             "type": "uint256"
           }
         ],
