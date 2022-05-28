@@ -124,14 +124,11 @@ console.log("message: " + NFTMessage);
 var nftObject = json["attributes"]
 console.log(nftObject);
 
-cellID = "cell-" + nftObject[4]["value"] + "-" + nftObject[5]["value"];
-console.log(cellID);
 
-var targetDiv = document.getElementById(cellID);
-targetDiv.innerHTML = "<wall-message message="+NFTMessage+" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
+nftComponent = "<wall-message message="+NFTMessage+" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
 
 
-//return nftObject;
+return nftComponent;
 
 
 }
@@ -141,7 +138,8 @@ targetDiv.innerHTML = "<wall-message message="+NFTMessage+" owner="+ NFTOwner+" 
 async function fetchNFTs() {
   let tokenId = await mintContract.tokenId();
   for( let i = 0; i <= tokenId; i++) {
-    getNFTData(tokenId - i);
+    let nftComponent = await getNFTData(tokenId - i);
+    document.getElementById("msg-container").innerHTML += nftComponent;
   }
 }
 
@@ -251,7 +249,7 @@ window.addEventListener('load', async () => {
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
 
-  document.getElementById("table-container").innerHTML = generateTable(4,4);
+  //document.getElementById("table-container").innerHTML = generateTable(4,4);
   
   fetchNFTs();
 
