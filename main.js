@@ -111,7 +111,9 @@ async function getChainlinkData(chainId){
 
 
 async function getNFTData(_tokenId) {
-  console.log(16176387881641784048187138729481200000880845507275061938066759892781496260633)
+  let num = 16176387881641784048187138729481200000880845507275061938066759892781496260633;
+console.log(99999999999999999999999999999999999999999999999999999999999999999999999999099 % 1296)
+
 
 let NFTMessage =  await mintContract.requestIdToMessage(_tokenId);
 let NFTOwner = await mintContract.ownerOf(_tokenId);
@@ -122,7 +124,7 @@ let NFTURI = await mintContract.tokenURI(_tokenId);
 let eventFilter = mintContract.filters.MintMessage()
 let events = await mintContract.queryFilter(eventFilter)
 let txId = events[_tokenId].transactionHash
-console.log(txId);
+
 
 
 const dataFetch = await fetch(NFTURI)
