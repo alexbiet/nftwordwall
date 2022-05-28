@@ -37,7 +37,7 @@ class WallMessage extends HTMLElement {
 
         <div class="word ${this.color} ${this.font} ${this.size}">
                 <div class="blur"></div>
-                <img src="images/${this.face}" width="64" alt="Face">
+                <img src="images/${this.face}.png" width="64" alt="Face">
                 <br><br>
                 <p>${this.message}</p>
                 <p><small><b>Strength: </b> 23/100 &nbsp; &nbsp; <b>Owner: </b><a href="https://mumbai.polygonscan.com/address/${this.owner}" target="_blank">${this.owner}</a></small></p>
