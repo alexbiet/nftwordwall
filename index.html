@@ -39,28 +39,34 @@
     
     <body>
 
-        <header class="container-fluid m-5">
-            <a href="/" class="text-decoration-none">
-                <img src="./images/logo.svg" class="bi me-2" alt="NFT Word Walls" style="max-width: 320px;">
-            </a>
-            <!-- Easter Egg! -->
-            <a href="/" class="text-decoration-none" style="z-index:99;position: absolute;display:inline-block;" data-bs-toggle="modal" data-bs-target="#easterEgg"> ✨ </a>
-            <!-- Easter Egg Modal -->
-            <div class="modal fade" style="z-index:9999999;" id="easterEgg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" style="color:#999" id="exampleModalLabel">You found the easter egg!! 🎊 🎆 🎉</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <header class="container-fluid">
+            <div class="row m-5">
+                <div class="col-auto">
+                <a href="/" class="text-decoration-none">
+                    <img src="./images/logo.svg" class="bi me-2" alt="NFT Word Walls" style="max-width:320px;display: inline-block;">
+                </a>
+            </div>
+            <div class="col-auto">
+                <!-- Easter Egg! -->
+                <a href="/" class="text-decoration-none" style="z-index:99;position:absolute;display:inline-block;margin-left:-15px;" data-bs-toggle="modal" data-bs-target="#easterEgg"> ✨ </a>
+                <!-- Easter Egg Modal -->
+                <div class="modal fade" style="z-index:9999999;" id="easterEgg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" style="color:#999" id="exampleModalLabel">You found the easter egg!! 🎊 🎆 🎉</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <video width="420" height="420" autoplay muted loop>
+                                <source src="images/WordWalletNFT.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                            </video>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <video width="420" height="420" autoplay muted loop>
-                            <source src="images/WordWalletNFT.mp4" type="video/mp4">
-                          Your browser does not support the video tag.
-                          </video>
                     </div>
                 </div>
-                </div>
+            </div>
             </div>
         </header>
 
