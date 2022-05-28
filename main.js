@@ -79,7 +79,7 @@ async function fetchAccountData() {
 
   mintContract = new ethers.Contract(db.minterAddress[chainId], db.minterABI, provider);
   //getNFTData(0);
-  document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
+  //document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
 
 
 }
