@@ -2,28 +2,28 @@
       "image": "https://bafybeie22q4rcb5z7jiunaosnc2simt23vjr5nlg5vugediicdrstvqzd4.ipfs.infura-ipfs.io/",
       "attributes": [
         {
-          "trait_type": "Mouth",
-          "value": "Bored"
+          "trait_type": "Color",
+          "value": "1"
         },
         {
-          "trait_type": "Background",
-          "value": "Aquamarine"
+          "trait_type": "Font",
+          "value": "1"
         },
         {
-          "trait_type": "Hat",
-          "value": "Girl's Hair Short"
+          "trait_type": "Size",
+          "value": "1"
         },
         {
-          "trait_type": "Eyes",
-          "value": "Scumbag"
+          "trait_type": "Duration",
+          "value": "1"
         },
         {
-          "trait_type": "Clothes",
-          "value": "Biker Vest"
+          "trait_type": "x-cord",
+          "value": "1"
         },
         {
-          "trait_type": "Fur",
-          "value": "Black"
+          "trait_type": "y-cord",
+          "value": "1"
         }
       ],
       "animation_url": "https://bafybeiaxijj6qmh5ulqergprjk3yfulnbe4c76mrjnznmsgeotzmra7ylu.ipfs.infura-ipfs.io/"

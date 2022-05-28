@@ -107,20 +107,32 @@ async function getChainlinkData(chainId){
 
 }
 
+
 async function getNFTData(_tokenId) {
-console.log(mintContract)
 let NFTData =  await mintContract.requestIdToMessage(_tokenId);
 let NFTOwner = await mintContract.ownerOf(_tokenId);
+let NFTURI = await mintContract.tokenURI(_tokenId);
 console.log(NFTOwner);
-parseNFT(NFTData, NFTOwner)
+console.log(NFTURI);
+parseNFT(NFTData, NFTOwner, NFTURI)
 }
+
+
+
+async function fetchNFTs() {
+  let tokenId = await mintContract.tokenId();
+  for( let i = 0; i < tokenId; i++) {
+    getNFTData(tokenId - i);
+  }
+}
+
 
 
 
 async function callStartMint(){
   console.log("call startMint");
   userMessage = inputEl.value;
-  let contractAddress = db.vrfAddress; //VRFConsumer
+  let contractAddress = db.vrfAdnetworkdress; //VRFConsumer
   const options = {
       contractAddress: contractAddress,
       functionName: "startMint",
@@ -137,11 +149,15 @@ async function callStartMint(){
 
 
 
-function parseNFT(data, owner){
+async function parseNFT(data, owner, NFTURI){
   console.log(data)
   pos = data.lastIndexOf('|');
   message = data.substring(0,pos-1);
   metadata = data.substring(pos+2);
+
+  const dataFetch = await fetch(NFTURI)
+  const json = await dataFetch.json()
+  console.log(json)
 
   console.log(message);
 
@@ -172,8 +188,8 @@ function parseNFT(data, owner){
 
   cellID = "cell-" + nftObject["xcoord"] + "-" + nftObject["ycoord"];
 
-  var targetDiv = document.getElementById(cellID);
-  targetDiv.innerHTML = "<wall-message message="+nftObject["message"]+" owner="+ nftObject["owner"]+" xcoord="+ nftObject["xcoord"]+" ycoord="+ nftObject["ycoord"]+" color="+ nftObject["color"]+" font="+ nftObject["font"] +" size="+nftObject["size"] +" duration="+nftObject["duration"] +"></wall-message>"
+  // var targetDiv = document.getElementById(cellID);
+  // targetDiv.innerHTML = "<wall-message message="+nftObject["message"]+" owner="+ nftObject["owner"]+" xcoord="+ nftObject["xcoord"]+" ycoord="+ nftObject["ycoord"]+" color="+ nftObject["color"]+" font="+ nftObject["font"] +" size="+nftObject["size"] +" duration="+nftObject["duration"] +"></wall-message>"
 
 
   //return nftObject;
@@ -207,30 +223,6 @@ async function onConnect() {
     return;
   }
 
-
-  // filter = {
-  //   address: db.minterAddress,
-  //   topics: [
-  //       // the name of the event, parnetheses containing the data type of each event, no spaces
-  //       ethers.utils.id("MintMessage(string)")
-  //   ]
-  // }
-
-
-   //let events = await ethers.Contract.filters.MintMessage()
-  // console.log(events);
-
-  //  provider.on(filter, (log, event) => {
-    // do whatever you want here 
-
-    // let iface = new ethers.utils.Interface(db.minterABI);
-
-    // parseEvent = iface.parseLog(log);
-    // console.log("event triggered");
-    // console.log(parseEvent);
-  // })
-  
-
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
     fetchAccountData();
@@ -263,6 +255,7 @@ function generateTable(columns, rows){
   return tableHTML;
 }
 
+
 async function onDisconnect() {
 
   console.log("Killing the wallet connection", provider);
@@ -288,6 +281,8 @@ window.addEventListener('load', async () => {
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
 
   document.getElementById("table-container").innerHTML = generateTable(4,4);
+  
+  fetchNFTs();
 
   
 
