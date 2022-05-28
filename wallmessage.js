@@ -10,6 +10,7 @@ class WallMessage extends HTMLElement {
       this.duration = "";
       this.xcoord = "";
       this.ycoord = "";
+      this.face = "";
     }
   
     connectedCallback() {
@@ -18,6 +19,7 @@ class WallMessage extends HTMLElement {
       this.font = this.getAttribute("font");
       this.size = this.getAttribute("size");
       this.duration = this.getAttribute("duration");
+      this.face = this.getAttribute("face");
 
       this.xcoord = this.getAttribute("xcoord");
       this.ycoord = this.getAttribute("ycoord");
@@ -35,6 +37,8 @@ class WallMessage extends HTMLElement {
 
         <div class="word ${this.color} ${this.font} ${this.size}">
                 <div class="blur"></div>
+                <img src="images/${this.face}" width="64" alt="Face">
+                <br><br>
                 <p>${this.message}</p>
                 <p><small><b>Strength: </b> 23/100 &nbsp; &nbsp; <b>Owner: </b><a href="https://mumbai.polygonscan.com/address/${this.owner}" target="_blank">${this.owner}</a></small></p>
         </div>

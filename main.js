@@ -151,20 +151,18 @@ async function callStartMint(){
 
 async function parseNFT(data, owner, NFTURI){
   console.log(data)
-  pos = data.lastIndexOf('|');
-  message = data.substring(0,pos-1);
-  metadata = data.substring(pos+2);
+  message = data
 
   const dataFetch = await fetch(NFTURI)
   const json = await dataFetch.json()
   console.log(json)
 
-  console.log(message);
+  console.log("message: " + message);
 
-  var nftObject = {}
+  var nftObject = json["attributes"]
+  console.log(nftObject);
 
-
-  nftObject["xcoord"] = Number(metadata[8] % 4);
+  /*nftObject["xcoord"] = Number(metadata[8] % 4);
   nftObject["ycoord"] = Number(metadata[9] % 4);
   nftObject["message"] = message;
   nftObject["owner"] = owner; 
@@ -184,15 +182,17 @@ async function parseNFT(data, owner, NFTURI){
   }
 
 
-  console.log(nftObject["message"]);
+  console.log(nftObject["message"]);*/
 
-  cellID = "cell-" + nftObject["xcoord"] + "-" + nftObject["ycoord"];
+  cellID = "cell-" + nftObject[4]["value"] + "-" + nftObject[5]["value"];
+  console.log(cellID);
 
-  // var targetDiv = document.getElementById(cellID);
-  // targetDiv.innerHTML = "<wall-message message="+nftObject["message"]+" owner="+ nftObject["owner"]+" xcoord="+ nftObject["xcoord"]+" ycoord="+ nftObject["ycoord"]+" color="+ nftObject["color"]+" font="+ nftObject["font"] +" size="+nftObject["size"] +" duration="+nftObject["duration"] +"></wall-message>"
+  var targetDiv = document.getElementById(cellID);
+  targetDiv.innerHTML = "<wall-message message="+message+" owner="+ owner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
 
 
   //return nftObject;
+
 }
 
 
