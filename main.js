@@ -210,15 +210,15 @@ async function onConnect() {
 }
 
 function generateTable(columns, rows){
-  let tableHTML=`<table style="width:100%">`;
+  let tableHTML=`<div class="container-fluid">`;
   for(let i=0; i<rows; i++){
-    tableHTML += `<tr>`;
+    tableHTML += `<div class="row dev text-center">`;
     for(let j=0; j<columns; j++){
-      tableHTML += `<td id="cell-` + i + `-` + j +`">.</td>`; 
+      tableHTML += `<div class="col-3" id="cell-` + i + `-` + j +`">.</div>`; 
     }
-    tableHTML += "</tr>";
+    tableHTML += "</div>";
   }
-  tableHTML += "</table>";
+  tableHTML += "</div>";
 
 
   return tableHTML;
