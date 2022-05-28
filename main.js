@@ -121,13 +121,13 @@ const dataFetch = await fetch(NFTURI)
 const json = await dataFetch.json()
 //console.log(json)
 
-//console.log("message: " + NFTMessage);
+console.log("message: " + NFTMessage);
 
 var nftObject = json["attributes"]
 //console.log(nftObject);
 
 
-nftComponent = "<wall-message message="+NFTMessage+" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
+nftComponent = "<wall-message message=\""+NFTMessage+"\" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
 
 
 return nftComponent;
