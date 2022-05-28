@@ -6,6 +6,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./WordWallMinter.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 //import "https://github.com/alexbiet/nftwordwall/blob/main/contracts/WordWallMinter.sol";
 
 contract WordWallVRF is VRFConsumerBaseV2, Ownable {
@@ -40,7 +41,7 @@ contract WordWallVRF is VRFConsumerBaseV2, Ownable {
   address public userAddress;
   address deployedMinterAddress;
   address s_owner;
-
+  uint256 public lastRandom;
   
 
   constructor(address _deployedMinterAddress) VRFConsumerBaseV2(vrfCoordinator) {
@@ -63,11 +64,13 @@ contract WordWallVRF is VRFConsumerBaseV2, Ownable {
   
   function fulfillRandomWords(uint256 _requestId, /* requestId */
     uint256[] memory _randomWords) internal override {
-    uint256 randomNum = _randomWords[0]; 
-    randomNum = (randomNum % 10000000000000000);  // values?
+    uint256 randomNum = _randomWords[0];
+    uint32 randomNumCast = uint32(randomNum);
+    randomNumCast = randomNumCast % 1296;
+    lastRandom = randomNum;
     requestIdToAddress[_requestId] = userAddress;
     requestIdToRandomNums[_requestId] = randomNum;
-    WordWallMinter(deployedMinterAddress).updateURI(randomNum, _requestId);
+    WordWallMinter(deployedMinterAddress).updateURI(randomNumCast, _requestId);
   }
 
   function startMint(string memory _userMessage) public payable {
