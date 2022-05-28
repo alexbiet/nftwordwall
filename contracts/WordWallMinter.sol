@@ -30,17 +30,20 @@ contract WordWallMinter is ERC721,ERC721URIStorage, Ownable {
         requestIdToMessage[tokenId] = message;
         requestIdToTokenId[_requestId] = tokenId;
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, "https://bafybeigfltfqhlporfnwoeqiwoxj6ezw5ymqvd3ykfywqbkn4q6lxxhx5i.ipfs.infura-ipfs.io/");  //add defaultURI
+        _setTokenURI(tokenId, "https://bafkreigiz3ux5krwej6b5bpregkgarlqkuvn5c67prxemnuhrz6mwrfdoa.ipfs.nftstorage.link/");  //add defaultURI
       
        
         emit MintMessage(message);
     }
      
-    function updateURI(uint256 _requestId, uint256 _randomNum) external onlyVRFContract {
-        string memory newUriPath;
-        newUriPath = Strings.toString(_randomNum);
-        newUriPath = string.concat( "uriMainDirectory" , newUriPath);
-        _setTokenURI(requestIdToTokenId[_requestId], "https://bafybeigfltfqhlporfnwoeqiwoxj6ezw5ymqvd3ykfywqbkn4q6lxxhx5i.ipfs.infura-ipfs.io/");
+    function updateURI(uint32 _randomNum, uint256 _requestId ) external onlyVRFContract {
+        string memory newUriEnding;
+        string memory baseUriPath;
+        string memory newUri;
+        newUriEnding = Strings.toString(_randomNum);
+        baseUriPath = string.concat( "https://bafybeidixpyk6txbxuxbhlf22rykk47bfzduohaogfvubv3abujehh4rje.ipfs.nftstorage.link/wordWall" , newUriEnding);
+        newUri = string.concat( baseUriPath , ".json");
+        _setTokenURI(requestIdToTokenId[_requestId], newUri);
      }
 
 
