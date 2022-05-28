@@ -126,7 +126,6 @@ let txId = events[_tokenId].transactionHash
 
 const dataFetch = await fetch(NFTURI)
 const json = await dataFetch.json()
-//console.log(json)
 
 //console.log("message: " + NFTMessage);
 
