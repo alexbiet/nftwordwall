@@ -117,17 +117,24 @@ let NFTOwner = await mintContract.ownerOf(_tokenId);
 let NFTURI = await mintContract.tokenURI(_tokenId);
 
 
+
+let eventFilter = mintContract.filters.MintMessage()
+let events = await mintContract.queryFilter(eventFilter)
+let txId = events[_tokenId].transactionHash
+console.log(txId);
+
+
 const dataFetch = await fetch(NFTURI)
 const json = await dataFetch.json()
 //console.log(json)
 
-console.log("message: " + NFTMessage);
+//console.log("message: " + NFTMessage);
 
 var nftObject = json["attributes"]
 //console.log(nftObject);
 
 
-nftComponent = "<wall-message message=\""+NFTMessage+"\" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
+nftComponent = "<wall-message message=\""+NFTMessage+"\" owner="+ NFTOwner+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" face=face-"+nftObject[3]["value"] +" txid= "+ txId +"></wall-message>"
 
 
 return nftComponent;
@@ -254,8 +261,8 @@ window.addEventListener('load', async () => {
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
 
-  document.querySelector("#radio-mumbai").addEventListener("click", function () {switchNetworkMumbai();console.log("aaaa");});
-  document.querySelector("#radio-polygon").addEventListener("click", function () {switchNetworkPolygon();console.log("bbbb");});
+  document.querySelector("#radio-mumbai").addEventListener("click", function () {switchNetworkMumbai();});
+  document.querySelector("#radio-polygon").addEventListener("click", function () {switchNetworkPolygon();});
   
   fetchNFTs();
 
@@ -263,8 +270,8 @@ window.addEventListener('load', async () => {
 
 });
 
-/////////////////////////
-//////Switch Networks//////
+///////////////////////////
+//    Switch Networks   ///
 //or ADD nonexisting RPC///
 ////////////////////////////
 const switchNetworkPolygon = async () => {
