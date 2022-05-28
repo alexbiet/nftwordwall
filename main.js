@@ -111,6 +111,7 @@ async function getChainlinkData(chainId){
 
 
 async function getNFTData(_tokenId) {
+  console.log(16176387881641784048187138729481200000880845507275061938066759892781496260633)
 
 let NFTMessage =  await mintContract.requestIdToMessage(_tokenId);
 let NFTOwner = await mintContract.ownerOf(_tokenId);
