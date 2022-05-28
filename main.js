@@ -132,7 +132,7 @@ async function fetchNFTs() {
 async function callStartMint(){
   console.log("call startMint");
   userMessage = inputEl.value;
-  let contractAddress = db.vrfAdnetworkdress; //VRFConsumer
+  let contractAddress = db.vrfAddress; //VRFConsumer
   const options = {
       contractAddress: contractAddress,
       functionName: "startMint",
