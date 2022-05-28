@@ -121,7 +121,7 @@ let NFTURI = await mintContract.tokenURI(_tokenId);
 let eventFilter = mintContract.filters.MintMessage()
 let events = await mintContract.queryFilter(eventFilter)
 let txId = events[_tokenId].transactionHash
-console.log(txId);
+//console.log(txId);
 
 
 const dataFetch = await fetch(NFTURI)
