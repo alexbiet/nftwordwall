@@ -38,7 +38,7 @@ class WallMessage extends HTMLElement {
                 <img src="images/${this.face}.png" width="64" alt="${this.face}">
                 <br><br>
                 <p>${this.message}</p>
-                <p><small><b>Created on  tx: </b><a href="https://mumbai.polygonscan.com/tx/${this.txID}" target="_blank">"${this.txID.substring(0,6) + '...' + this.txID.slice(-4)}</a><br><b>Owner: </b><a href="https://mumbai.polygonscan.com/address/${this.owner}" target="_blank">${this.owner.substring(0,6) + '...' + this.owner.slice(-4)}</a></small></p>
+                <p><small><b>Created on  tx: </b><a href="https://mumbai.polygonscan.com/tx/${this.txID}" target="_blank">${this.txID.substring(0,6) + '...' + this.txID.slice(-4)}</a><br><b>Owner: </b><a href="https://mumbai.polygonscan.com/address/${this.owner}" target="_blank">${this.owner.substring(0,6) + '...' + this.owner.slice(-4)}</a></small></p>
         </div><br>
                 `;
     
