@@ -1,9 +1,12 @@
 body {
     background-image: url('/images/background.jpg'); 
-    background-position: top;
+    background-attachment: fixed;
+    background-position: top center;
     background-repeat: repeat;
     background-size: cover;
+    overscroll-behavior: none;
 }
+
 table, th, td {
     border:1px solid white;
   }
@@ -310,4 +313,14 @@ body {
     box-shadow: 2px 2px 0px 3px rgba(255, 255, 255, 0.25);
     border-radius: 10px;
     z-index: 9999999;
+}
+
+#mint-modal .modal-dialog {
+    position: absolute;
+}
+hr {
+    color: #8247E5;
+    opacity: 0.5;
+    max-width: 800px;
+    margin: 0 auto;
 }

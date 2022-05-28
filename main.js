@@ -342,11 +342,11 @@ myModal.addEventListener('shown.bs.modal', function () {
 })
 
 document.getElementById('mint-modal').style.display = 'block';
-// reset modal if it isn't visible
+//reset modal if it isn't visible
 if (!$(".modal.in").length) {
 $(".modal-dialog").css({
-    top: 0,
-    left: 0,
+    top: 10,
+    left: window.innerWidth - 480,
 });
 }
 

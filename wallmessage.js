@@ -41,7 +41,7 @@ class WallMessage extends HTMLElement {
                 <br><br>
                 <p>${this.message}</p>
                 <p><small><b>Strength: </b> 23/100<br><b>Owner: </b><a href="https://mumbai.polygonscan.com/address/${this.owner}" target="_blank">${this.owner.substring(0,6) + '...' + selectedAccount.slice(-4)}</a></small></p>
-        </div>
+        </div><br><hr><br>
                 `;
     
     }
