@@ -324,3 +324,19 @@ hr {
     max-width: 800px;
     margin: 0 auto;
 }
+
+.btn-group {
+    margin-left:1px;
+}
+
+
+.btn-outline-primary {
+    color: #8247E5;
+    border-color: #8247E5;
+    border-radius: 10px;
+}
+.btn-outline-primary:hover {
+    color: white;
+    background-color: #8247E5;
+    border-color: #8247E5;
+}

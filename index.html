@@ -40,8 +40,8 @@
     <body>
 
         <header class="container-fluid">
-            <div class="row m-5">
-                <div class="col-auto">
+        <div class="row m-5">
+            <div class="col-auto">
                 <a href="/" class="text-decoration-none">
                     <img src="./images/logo.svg" class="bi me-2" alt="NFT Word Walls" style="max-width:320px;display:inline-block;">
                 </a>
@@ -68,18 +68,7 @@
                 </div>
             </div>
 
-            <div class="col col-sm-6 col-md">
-                <div class="btn-group" role="group" aria-label="Chain">
-  
-                  <input type="radio" class="btn-check" name="chain" id="mumbai" autocomplete="off">
-                  <label id="radio-mumbai"class="btn btn-sm btn-outline-primary" for="mumbai"><b>Mumbai</b><br><small>(testnet)</small></label>
-    
-                  <input type="radio" class="btn-check" name="chain" id="polygon" autocomplete="off">
-                  <label id="radio-polygon"class="btn btn-sm btn-outline-primary" for="polygon"><b>Polygon</b><br><small class="text-danger">(mainnet)</small></label>
-                </div>
-              </div>
-
-            </div>
+        </div>
         </header>
 
         <div class="container-fluid" style="min-height:500px;">
@@ -103,6 +92,20 @@
                     <div class="collapse" id="collapseModal">
 
                         <div class="wallet">
+
+                            <div class="col">
+                                <div class="btn-group" role="group" aria-label="Chain">
+                  
+                                  <input type="radio" class="btn-check" name="chain" id="mumbai" autocomplete="off">
+                                  <label id="radio-mumbai"class="btn btn-sm btn-outline-primary" for="mumbai"><b>Mumbai</b><br><small class="text-success">(testnet)</small></label>
+                    
+                                  <input type="radio" class="btn-check" name="chain" id="polygon" autocomplete="off">
+                                  <label id="radio-polygon"class="btn btn-sm btn-outline-primary" for="polygon"><b>Polygon</b><br><small class="text-danger">(mainnet)</small></label>
+                                </div>
+                                <br>
+                                <br>
+                            </div>
+
                             <div id="not-connected">
                                 <h4 class="text-white">1. CONNECT</h4>
                                 <p>Connect your wallet to start minting.</p>
