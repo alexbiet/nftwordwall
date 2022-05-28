@@ -126,15 +126,21 @@ let txId = events[_tokenId].transactionHash
 
 const dataFetch = await fetch(NFTURI)
 const json = await dataFetch.json()
-//console.log(json)
+console.log(json)
 
 //console.log("message: " + NFTMessage);
 
 var nftObject = json["attributes"]
 //console.log(nftObject);
 
+let colors = {"Magenta": 1, "Red":2, "Orange":3, "Lime":4, "Cyan":5, "White":6};
+let fonts = {"Kodchasan":1, "Press Start 2P":2, "Titan One":3, "Black Ops One":4, "Cabin Sketch":5, "Reggae One":6};
+let sizes = {"tiny":1, "smaller":2, "small":3, "medium":4, "large":5, "huge":6};
+let faces = {"SmirkyBlue":1, "HypedOrange":2, "AngryRed":3, "CoolGreen":4, "SusPurple":5, "CrazyYellow":5};
 
-nftComponent = "<wall-message message=\""+NFTMessage+"\" owner="+ NFTOwner+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" face=face-"+nftObject[3]["value"] +" txid= "+ txId +"></wall-message>"
+
+
+nftComponent = "<wall-message message=\""+NFTMessage+"\" owner="+ NFTOwner+" color=color-"+ colors[nftObject[0]["value"]]+" font=font-"+ fonts[nftObject[1]["value"]] +" size=size-"+sizes[nftObject[2]["value"]] +" face=face-"+faces[nftObject[3]["value"]] +" txid= "+ txId +"></wall-message>"
 
 
 return nftComponent;
