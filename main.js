@@ -37,13 +37,15 @@ function init() {
     providerOptions,
     disableInjectedProvider: false,
   });
+
+
 }
 
 
 async function fetchAccountData() {
   
   ethers = Moralis.web3Library;
-  web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  
   
   const chainId = await web3.eth.getChainId();
   const chainData = evmChains.getChain(chainId);
@@ -75,7 +77,7 @@ async function fetchAccountData() {
   document.querySelector("#connected").style.display = "block";
 
 
-  mintContract = new ethers.Contract(db.minterAddress, db.minterABI, provider);
+  mintContract = new ethers.Contract(db.minterAddress[chainId], db.minterABI, provider);
   //getNFTData(0);
   document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
 
@@ -117,12 +119,12 @@ let NFTURI = await mintContract.tokenURI(_tokenId);
 
 const dataFetch = await fetch(NFTURI)
 const json = await dataFetch.json()
-console.log(json)
+//console.log(json)
 
-console.log("message: " + NFTMessage);
+//console.log("message: " + NFTMessage);
 
 var nftObject = json["attributes"]
-console.log(nftObject);
+//console.log(nftObject);
 
 
 nftComponent = "<wall-message message="+NFTMessage+" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
@@ -147,9 +149,10 @@ async function fetchNFTs() {
 
 
 async function callStartMint(){
+  const chainId = await web3.eth.getChainId();
   console.log("call startMint");
   userMessage = inputEl.value;
-  let contractAddress = db.vrfAddress; //VRFConsumer
+  let contractAddress = db.vrfAddress[chainId]; //VRFConsumer
   const options = {
       contractAddress: contractAddress,
       functionName: "startMint",
@@ -191,6 +194,8 @@ async function onConnect() {
     console.log("Could not get a wallet connection", e);
     return;
   }
+
+  web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
@@ -249,13 +254,82 @@ window.addEventListener('load', async () => {
   document.querySelector("#btn-connect").addEventListener("click", onConnect);
   document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
 
-  //document.getElementById("table-container").innerHTML = generateTable(4,4);
+  document.querySelector("#radio-mumbai").addEventListener("click", function () {switchNetworkMumbai();console.log("aaaa");});
+  document.querySelector("#radio-polygon").addEventListener("click", function () {switchNetworkPolygon();console.log("bbbb");});
   
   fetchNFTs();
 
   
 
 });
+
+/////////////////////////
+//////Switch Networks//////
+//or ADD nonexisting RPC///
+////////////////////////////
+const switchNetworkPolygon = async () => {
+  try {
+    await web3.currentProvider.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x89" }],
+    });
+  } catch (error) {
+    if (error.code === 4902) {
+      try {
+        await web3.currentProvider.request({
+          method: "wallet_addEthereumChain",
+          params: [
+            {
+              chainId: "0x89",
+              chainName: "Polygon",
+              rpcUrls: ["https://polygon-rpc.com"],
+              nativeCurrency: {
+                name: "MATIC",
+                symbol: "MATIC",
+                decimals: 18,
+              },
+              blockExplorerUrls: ["https://polygonscan.com"],
+            },
+          ],
+        });
+
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  }
+}
+const switchNetworkMumbai = async () => {
+  try {
+    await web3.currentProvider.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x13881" }],
+    });
+  } catch (error) {
+    if (error.code === 4902) {
+      try {
+        await web3.currentProvider.request({
+          method: "wallet_addEthereumChain",
+          params: [
+            {
+              chainId: "0x13881",
+              chainName: "Mumbai",
+              rpcUrls: ["https://polygon-mumbai.g.alchemy.com/v2/SqfaXTHKq6BcbY6g2ZaQ2OtxwjbsW1Wk"],
+              nativeCurrency: {
+                name: "Matic",
+                symbol: "Matic",
+                decimals: 18,
+              },
+              blockExplorerUrls: ["https://explorer-mumbai.maticvigil.com"],
+            },
+          ],
+        });
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  }
+}
 
 
 

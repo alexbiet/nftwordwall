@@ -1,8 +1,13 @@
 var db = {
 
-    minterAddress: "0xd3f603CB6Da906FB86616b59BEe6121edCD9dE0A",
-    vrfAddress: "0x7E87302B41DbF9c1A1bb3187Dc9FB76f02800531",
-
+    minterAddress: {
+      "117": "0x...",
+      "80001": "0xd3f603CB6Da906FB86616b59BEe6121edCD9dE0A"
+    },
+    vrfAddress: {
+      "117": "0x...",
+      "80001": "0x7E87302B41DbF9c1A1bb3187Dc9FB76f02800531"
+    },
     priceFeedAddresses: {
       "1": "0x7bAC85A8a13A4BcD8abb3eB7d6b4d632c5a57676",
       "117": "0xAB594600376Ec9fD91F8e885dADF0CE036862dE0",
