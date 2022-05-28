@@ -144,12 +144,13 @@ body {
 /* Word Wall */
 
 .word {
-    padding: 20px 10px;
+    padding: 20px 10px 10px;
     max-width: 25vw;
     z-index: 999999;
     border-radius: 10px;
     position: relative;
     overflow: visible;
+    text-align: center;
 }
 
 .word > .blur {
@@ -157,7 +158,7 @@ body {
     height: 100%;
     position: absolute;
     filter: blur(30px);
-    border-radius: 10px;
+    border-radius: 100%;
     z-index:-2;
 }
 
@@ -207,29 +208,27 @@ body {
 
 
 .font-1 {
-    font-family: "Arial", serif;
+    font-family: "Kodchasan", serif;
 }
 
 .font-2 {
-    font-family: "Arial", serif;
+    font-family: "Press Start 2P", serif;
 }
 
 .font-3 {
-    font-family: "Arial", serif;
+    font-family: "Titan One", serif;
 }
 
 .font-4 {
-    font-family: "Arial", serif;
+    font-family: "Black Ops One", serif;
 }
 
 .font-5 {
-    font-family: "Arial", serif;
+    font-family: "Cabin Sketch", serif;
 }
-.font-5 {
-    font-family: "Arial", serif;
-}
+
 .font-6 {
-    font-family: "Arial", serif;
+    font-family: "Reggae One", serif;
 }
 
 .size-1 {
