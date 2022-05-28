@@ -37,13 +37,15 @@ function init() {
     providerOptions,
     disableInjectedProvider: false,
   });
+
+
 }
 
 
 async function fetchAccountData() {
   
   ethers = Moralis.web3Library;
-  web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+  
   
   const chainId = await web3.eth.getChainId();
   const chainData = evmChains.getChain(chainId);
@@ -192,6 +194,8 @@ async function onConnect() {
     console.log("Could not get a wallet connection", e);
     return;
   }
+
+  web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
   // Subscribe to accounts change
   provider.on("accountsChanged", (accounts) => {
