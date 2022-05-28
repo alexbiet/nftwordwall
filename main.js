@@ -109,19 +109,38 @@ async function getChainlinkData(chainId){
 
 
 async function getNFTData(_tokenId) {
-let NFTData =  await mintContract.requestIdToMessage(_tokenId);
+
+let NFTMessage =  await mintContract.requestIdToMessage(_tokenId);
 let NFTOwner = await mintContract.ownerOf(_tokenId);
 let NFTURI = await mintContract.tokenURI(_tokenId);
-console.log(NFTOwner);
-console.log(NFTURI);
-parseNFT(NFTData, NFTOwner, NFTURI)
+
+
+const dataFetch = await fetch(NFTURI)
+const json = await dataFetch.json()
+console.log(json)
+
+console.log("message: " + NFTMessage);
+
+var nftObject = json["attributes"]
+console.log(nftObject);
+
+cellID = "cell-" + nftObject[4]["value"] + "-" + nftObject[5]["value"];
+console.log(cellID);
+
+var targetDiv = document.getElementById(cellID);
+targetDiv.innerHTML = "<wall-message message="+NFTMessage+" owner="+ NFTOwner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
+
+
+//return nftObject;
+
+
 }
 
 
 
 async function fetchNFTs() {
   let tokenId = await mintContract.tokenId();
-  for( let i = 0; i < tokenId; i++) {
+  for( let i = 0; i <= tokenId; i++) {
     getNFTData(tokenId - i);
   }
 }
@@ -145,54 +164,6 @@ async function callStartMint(){
     let  transaction = await Moralis.executeFunction(options);
     const receipt = await transaction.wait();
     console.log(receipt);
-}
-
-
-
-async function parseNFT(data, owner, NFTURI){
-  console.log(data)
-  message = data
-
-  const dataFetch = await fetch(NFTURI)
-  const json = await dataFetch.json()
-  console.log(json)
-
-  console.log("message: " + message);
-
-  var nftObject = json["attributes"]
-  console.log(nftObject);
-
-  /*nftObject["xcoord"] = Number(metadata[8] % 4);
-  nftObject["ycoord"] = Number(metadata[9] % 4);
-  nftObject["message"] = message;
-  nftObject["owner"] = owner; 
-
-
-  var attr_names = ["color", "font", "size", "duration"]
-
-  for(let i= 0; i<8; i+=2){
-    let category= attr_names[i/2];
-
-    let value = Number(metadata.slice(i,i+2));
-    value = (value % 6) +1;
-    
-    let id_class = category+ "-" + value
-    nftObject[category] = id_class;
-
-  }
-
-
-  console.log(nftObject["message"]);*/
-
-  cellID = "cell-" + nftObject[4]["value"] + "-" + nftObject[5]["value"];
-  console.log(cellID);
-
-  var targetDiv = document.getElementById(cellID);
-  targetDiv.innerHTML = "<wall-message message="+message+" owner="+ owner+" xcoord="+ nftObject[4]["value"]+" ycoord="+ nftObject[5]["value"]+" color=color-"+ nftObject[0]["value"]+" font=font-"+ nftObject[1]["value"] +" size=size-"+nftObject[2]["value"] +" duration=duration-"+nftObject[3]["value"] +" face=face-"+nftObject[3]["value"] +"></wall-message>"
-
-
-  //return nftObject;
-
 }
 
 
