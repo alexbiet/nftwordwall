@@ -2,7 +2,7 @@ var db = {
 
     minterAddress: {
       "117": "0x...",
-      "80001": "0xD470E7e5ebF6139cC408388f3304a7b71DF816c9"
+      "80001": "0xabfD48b96363Cc0b83764e8529Dc49974343A355"
     },
     vrfAddress: {
       "117": "0x...",

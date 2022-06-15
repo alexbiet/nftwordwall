@@ -76,7 +76,7 @@ async function fetchAccountData() {
   document.querySelector("#not-connected").style.display = "none";
   document.querySelector("#connected").style.display = "block";
 
-
+ 
   mintContract = new ethers.Contract(db.minterAddress[chainId], db.minterABI, provider);
   //getNFTData(0);
   //document.getElementById("test-button").addEventListener("click", function () { getNFTData(testInputEl.value)} );
@@ -112,9 +112,12 @@ async function getChainlinkData(chainId){
 
 async function getNFTData(_tokenId) {
 
+console.log(_tokenId)
 
-let NFTMessage =  await mintContract.requestIdToMessage(_tokenId);
-let NFTOwner = await mintContract.ownerOf(_tokenId);
+let NFTMessage =  await mintContract.requestIdToMessage(_tokenId+1);
+console.log("step")
+let NFTOwner = await mintContract.ownerOf(_tokenId);//failing
+
 let NFTURI = await mintContract.tokenURI(_tokenId);
 
 
@@ -154,6 +157,7 @@ async function fetchNFTs() {
   let tokenId = await mintContract.tokenId();
   for( let i = 0; i <= tokenId; i++) {
     let nftComponent = await getNFTData(tokenId - i);
+    console.log("step1");
     document.getElementById("msg-container").innerHTML += nftComponent;
   }
 }
